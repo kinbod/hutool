@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.xiaoleilu.hutool.util.NumberUtil;
-
 /**
  * {@link NumberUtil} 单元测试类
  * 
@@ -14,6 +12,13 @@ import com.xiaoleilu.hutool.util.NumberUtil;
  *
  */
 public class NumberUtilTest {
+	
+	@Test
+	public void isIntegerTest() {
+		Assert.assertTrue(NumberUtil.isInteger("-12"));
+		Assert.assertTrue(NumberUtil.isInteger("256"));
+		Assert.assertTrue(NumberUtil.isInteger("0256"));
+	}
 
 	@Test
 	public void divTest() {
@@ -66,5 +71,11 @@ public class NumberUtilTest {
 	@Test
 	public void equalsTest() {
 		Assert.assertTrue(NumberUtil.equals(new BigDecimal("0.00"), BigDecimal.ZERO));
+	}
+	
+	@Test
+	public void formatPercentTest() {
+		String str = NumberUtil.formatPercent(0.33543545, 2);
+		Assert.assertEquals("33.54%", str);
 	}
 }

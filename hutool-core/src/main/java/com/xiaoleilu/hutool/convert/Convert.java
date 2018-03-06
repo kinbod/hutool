@@ -1,5 +1,6 @@
 package com.xiaoleilu.hutool.convert;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -475,7 +476,7 @@ public final class Convert {
 	 * @param value 值
 	 * @return 转换后的值
 	 */
-	public static <T> T convert(Class<T> type, Object value) {
+	public static <T> T convert(Type type, Object value) {
 		return convert(type, value, null);
 	}
 
@@ -489,7 +490,7 @@ public final class Convert {
 	 * @return 转换后的值
 	 * @throws ConvertException 转换器不存在
 	 */
-	public static <T> T convert(Class<T> type, Object value, T defaultValue) throws ConvertException {
+	public static <T> T convert(Type type, Object value, T defaultValue) throws ConvertException {
 		return ConverterRegistry.getInstance().convert(type, value, defaultValue);
 	}
 
@@ -687,40 +688,6 @@ public final class Convert {
 		return destUnit.convert(sourceDuration, sourceUnit);
 	}
 
-	/**
-	 * 数字金额大写转换 先写个完整的然后将如零拾替换成零
-	 * 
-	 * @param n 数字
-	 * @return 中文大写数字
-	 */
-	public static String digitUppercase(double n) {
-		String fraction[] = { "角", "分" };
-		String digit[] = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
-		String unit[][] = { { "元", "万", "亿" }, { "", "拾", "佰", "仟" } };
-
-		String head = n < 0 ? "负" : "";
-		n = Math.abs(n);
-
-		String s = "";
-		for (int i = 0; i < fraction.length; i++) {
-			s += (digit[(int) (Math.floor(n * 10 * Math.pow(10, i)) % 10)] + fraction[i]).replaceAll("(零.)+", "");
-		}
-		if (s.length() < 1) {
-			s = "整";
-		}
-		int integerPart = (int) Math.floor(n);
-
-		for (int i = 0; i < unit[0].length && integerPart > 0; i++) {
-			String p = "";
-			for (int j = 0; j < unit[1].length && n > 0; j++) {
-				p = digit[integerPart % 10] + unit[1][j] + p;
-				integerPart = integerPart / 10;
-			}
-			s = p.replaceAll("(零.)*零$", "").replaceAll("^$", "零") + unit[0][i] + s;
-		}
-		return head + s.replaceAll("(零.)*零元", "元").replaceFirst("(零.)+", "").replaceAll("(零.)+", "零").replaceAll("^整$", "零元整");
-	}
-
 	// --------------------------------------------------------------- 原始包装类型转换
 	/**
 	 * 原始类转为包装类，非原始类返回原类
@@ -746,7 +713,7 @@ public final class Convert {
 
 	// -------------------------------------------------------------------------- 数字和英文转换
 	/**
-	 * 将阿拉伯数字转为英文表达式
+	 * 将阿拉伯数字转为英文表达方式
 	 * 
 	 * @param number {@link Number}对象
 	 * @return 英文表达式
@@ -755,7 +722,33 @@ public final class Convert {
 	public static String numberToWord(Number number) {
 		return NumberWordFormater.format(number);
 	}
-
+	
+	/**
+	 * 将阿拉伯数字转为中文表达方式
+	 * 
+	 * @param number 数字
+	 * @param isUseTraditonal 是否使用繁体字（金额形式）
+	 * @return 中文
+	 * @since 3.2.3
+	 */
+	public static String numberToChinese(double number, boolean isUseTraditonal) {
+		return NumberChineseFormater.format(number, isUseTraditonal);
+	}
+	
+	/**
+	 * 金额转为中文形式
+	 * 
+	 * @param n 数字
+	 * @return 中文大写数字
+	 * @since 3.2.3
+	 */
+	public static String digitToChinese(Number n) {
+		if(null == n) {
+			return "零";
+		}
+		return NumberChineseFormater.format(n.doubleValue(), true, true);
+	}
+	
 	// -------------------------------------------------------------------------- 数字转换
 	/**
 	 * int转byte

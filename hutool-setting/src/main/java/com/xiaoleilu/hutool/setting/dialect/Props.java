@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
 import java.util.Properties;
 
+import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.convert.Convert;
 import com.xiaoleilu.hutool.getter.BasicTypeGetter;
 import com.xiaoleilu.hutool.getter.OptBasicTypeGetter;
@@ -32,7 +33,6 @@ import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
 import com.xiaoleilu.hutool.setting.SettingRuntimeException;
 import com.xiaoleilu.hutool.util.CharsetUtil;
-import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 
 /**
@@ -466,7 +466,7 @@ public final class Props extends Properties implements BasicTypeGetter<String>, 
 		Writer writer = null;
 		try {
 			writer = FileUtil.getWriter(absolutePath, charset, false);
-			super.store(FileUtil.getWriter(absolutePath, charset, false), null);
+			super.store(writer, null);
 		} catch (IOException e) {
 			throw new IORuntimeException(e, "Store properties to [{}] error!", absolutePath);
 		} finally {

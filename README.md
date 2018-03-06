@@ -1,6 +1,6 @@
 ![封面](https://raw.githubusercontent.com/looly/hutool/master/docs/resources/hutool.jpg)
 
-[![Version](https://img.shields.io/badge/version-3.2.0-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22hutool-all%22)
+[![Version](https://img.shields.io/badge/version-3.3.1-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22hutool-all%22)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![JDK 1.7](https://img.shields.io/badge/JDK-1.7-green.svg "JDK 1.7")]()
 
@@ -28,7 +28,9 @@
 * XXXUtil各种有用的工具类
 
 ## 简介
-[Hutool](https://github.com/looly/hutool)是一个工具包，我日常写项目的一些积累，希望你看了之后会有所启发或者能给你工作中带来帮助。这个工具包叫做Hutool也有“糊涂”之意，意为很多时候我们并不需要关注细节，专注业务。
+Hutool是Hu + tool的自造词，前者致敬我的“前任公司”，后者为工具之意，谐音“糊涂”，寓意追求“万事都作糊涂观，无所谓失，无所谓得”的境界。
+
+Hutool是一个Java工具包，也只是一个工具包，它帮助我们简化每一行代码，减少每一个方法，让Java语言也可以“甜甜的”。Hutool最初是我项目中“util”包的一个整理，后来慢慢积累并加入更多非业务相关功能，并广泛学习其它开源项目精髓，经过自己整理修改，最终形成丰富的开源工具集。
 
 ## 设计哲学
 
@@ -74,13 +76,13 @@ Hutool始终是一个工具类而不是框架，这意味着它对项目的侵�
 <dependency>
     <groupId>com.xiaoleilu</groupId>
     <artifactId>hutool-all</artifactId>
-    <version>$(hutool.version)</version>
+    <version>${hutool.version}</version>
 </dependency>
 ```
 
 ### Gradle
 ```
-compile 'com.xiaoleilu:hutool-all:$(hutool.version)'
+compile 'com.xiaoleilu:hutool-all:${hutool.version}'
 ```
 
 注：工具包的**版本**可以通过 [http://search.maven.org/](http://search.maven.org/) 搜索`hutool-all`找到项目。
@@ -96,9 +98,9 @@ compile 'com.xiaoleilu:hutool-all:$(hutool.version)'
 
 [http://maven.aliyun.com/nexus/content/groups/public/com/xiaoleilu/hutool-all/](http://maven.aliyun.com/nexus/content/groups/public/com/xiaoleilu/hutool-all/)
 
-## 文档请移步 
+## 文档 
 
-[Hutool Wiki@OSC](http://hutool.mydoc.io/)
+请移步: [Hutool Wiki@OSC](http://hutool.mydoc.io/)
 
 ## 版本变更
 

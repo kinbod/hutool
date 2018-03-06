@@ -1,5 +1,125 @@
 # Changelog
 
+-------------------------------------------------------------------------------------------------------------
+
+## 3.3.2
+
+### 新特性
+* 改进HttpUtil.download使之支持更多方法和参数
+
+### Bug修复
+* FileTypeUtil.getType未关闭流问题（issue#79@Github）
+* 修复EntityHandler和EntityListHandler转换问题
+* 修复BeanDesc类中boolean类型字段名为isXXX的情况无法注入问题
+
+-------------------------------------------------------------------------------------------------------------
+
+## 3.3.1
+
+### 新特性
+* StrUtil增加方法equalsCharAt
+* 增加方法FileUtil.cleanInvalid
+* db模块BeanHandler支持忽略大小写（针对Oracle返回大写字段无法注入Bean的问题）
+* Setting增加set方法，支持分组
+* JSONObject支持键忽略大小写模式
+* db模块针对java.sql.Time增加单独判断
+* DbUtil.getTables支持Oracle用户参数传入（感谢@【广西】Succy）
+* 优化BeanHandler，去除转为Entity环节
+
+### Bug修复
+* 修复HttpUtil.post方法超时失效的问题（感谢@【常州】Gavin）
+* 修复Http的get方法传入String带有空格时，报空指针错误（感谢@【北京】宁静）
+* 修复DateUtil.endOfWeek问题（感谢@【北京】谢栋）
+* 修复Convert.numberToChinese大数字出现的问题（issue#IEYLP@Gitee）
+* 修复HtmlUtil.restoreEscaped缺失分号问题，以及单引号处理（issue#IH5ZH@Gitee）
+* 修复签名问题（issue#IH61M@Gitee）
+* 修复Excel空行下报错问题（issue#78@Github）
+* 修复NumberUtil.isInteger无法判断负数问题（感谢@【杭州】fineliving）
+* 修复BeanUtil.fillBean等方法忽略大小写失败的问题
+* 修复JSON中getStr方法返回字符串中含有\b等特殊字符时显示错误问题（感谢@【广西】Succy）
+
+-------------------------------------------------------------------------------------------------------------
+
+## 3.3.0
+
+### 新特性
+* 删除Deprecated方法和类
+* 增加StrUtil.isEmptyIfStr和isBlankIfStr方法
+* 改进ExcelReader，对于空行默认不读取（包括元素全部为null或“”的行）（感谢@【北京】新任女人国王）
+* Validator增加isLetter、isUpperCase、isLowerCase方法（感谢@【深圳】objectboy(刚转java) ）
+* 增加权重随机数算法WeightRandom，RandomUtil增加Long、Double随机数生成
+* XmlUtil.transElements增加节点类型判断（issue#IGTGO@Gitee）
+* JSONUtil增加isJson、isJsonObj、isJsonArray方法（issue#IGT7A@Gitee）
+* Week增加方法toChinese（感谢@【北京】宁静）
+* AbstractCaptcha增加方法generateCode，用于抽象验证码字符串生成，提供可定制验证码字符串生成（感谢@【杭州】KIWI @【杭州】t-io ）
+* NetUtil增加netCat方法
+* 新增ExceptionUtil.wrap方法，包装异常
+* 改进AES个DES类，在构造中加入自定义偏移
+* 实现ActiveEntity
+* HttpRequest增加fileForm方法
+* 增加DESede快捷实现类
+* 签名算法从AsymmetricCrypto中剥离，形成Sign对象
+* 增加EnumUtil工具类
+* Convert.convert方法支持Map转换
+* HttpRequest.body方法增加自动判断Content-Type类型（感谢@【北京】酱油君）
+* 增加自定义重定向次数
+* SecureUtil针对hmac方法增加String参数（感谢@【北京】宁静）
+* db模块去除获取null值类型的错误日志
+* 手机号验证(Validator)支持199、198、166号段（issue#IH0TD@Gitee）
+* Base64、Base32、BCD全部移入codec包
+* Map相关类移入map包中，与collection区分
+* HttpUtil.get增加超时重载（感谢@【山东】UP ）
+
+### Bug修复
+* 修复ExcelUtil.readBySax方法判断03或07格式导致的问题（issue#IGT7X@Gitee）
+* 修复CronUtil中一些方法非static问题（issue#74@Github）
+* 修复ShearCaptcha的thickness无效问题
+* 修复AbstractCaptcha写出文件未关闭流的问题
+* 修复AES中自定义Mode和Padding导致的自动生成密钥问题（issue#55@Github）
+* 修复MapConvert类中类型判断导致的null问题（issue#IGXNI@Gitee）
+* 修复FileUtil.copy方法复制文件到目录失败问题（感谢@【广州】Sinderlar）
+* 修复邮件默认配置问题
+* 按照RFC2616规范，读取响应头信息时忽略大小写（感谢@【武汉】赛车手）
+* 修复POI模块read07BySax导致的空白单元格丢失和日期粘连问题（issue#76@Github）
+* 修复ExcelWriter在写出4000行以上时样式超出范围问题（issue#IH05B@Gitee）
+* 修复StrUtil.replaceChars方法无效问题
+* 修复在JSONArray中toList有null元素返回null的问题（感谢@【银川】野马）
+* 修复Base64解码时在有换行符的情况下解码失败的问题（感谢@【霾都】QQ小冰）
+
+-------------------------------------------------------------------------------------------------------------
+
+## 3.2.3
+
+### 新特性
+* 增加NumberChineseFormater数字转汉字（感谢@【杭州】fineliving）
+* StrUtil增加ordinalIndexOf方法（感谢@【四川】开心一笑）
+* 增加H2和SQLServer2012方言支持
+* 邮件支持发件人姓名（issue#IGMW2@Gitee）
+* db部分中Session增加默认数据源的Session
+* 增加RedisDs，Jedis的薄封装
+* 增加字符串相似度计算工具TextSimilarity（感谢@【杭州】fineliving）
+* 增加几个验证码类型
+* 增加HtmlUtil.escape方法（issue#IGOKB@Gitee）
+* ExcelWriter排序支持
+* BeanUtil中CopyOptions增加mapping选项，可以不同字段名之间值复制
+* 使用BeanCopier抽象Bean属性拷贝
+
+### Bug修复
+* 修复Oracle下Date类型字段带时分秒取出丢失问题（感谢@烟雨江南）
+* 修复Convert中金额转为大写格式问题（感谢@【杭州】fineliving）
+* 邮件修复附件名乱码问题（issue#IGMW2@Gitee）
+* 修复 DateBetween.betweenYear中月份一致导致判断有误问题（issue#IGN0N@Gitee）
+* 修复JSONStrFormater在字符串中出现“[”、“{”等导致的换行错误问题（感谢@【北京】宁静）
+* 修复Props中两次创建Writer问题
+* 修复ZipUtil.unzip丢失编码参数问题（issue#71@Github）
+* 修复JSON中设置不忽略null值后子对象null值丢失问题（感谢@【北京】xkcoding）
+* 修复HtmlUtil.removeAllHtmlAttr方法无效问题
+* 修复DateUtil.parse方法对时间中"."误替换
+* 修复Season.AUTUMN拼写错误（issue#73@Github）
+* 修复插入返回主键错误问题（感谢@【北京】Pom）
+
+-------------------------------------------------------------------------------------------------------------
+
 ## 3.2.2
 
 ### 新特性

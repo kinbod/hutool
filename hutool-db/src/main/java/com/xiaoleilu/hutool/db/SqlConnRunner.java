@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.db.dialect.Dialect;
 import com.xiaoleilu.hutool.db.dialect.DialectFactory;
 import com.xiaoleilu.hutool.db.handler.EntityListHandler;
@@ -20,7 +21,6 @@ import com.xiaoleilu.hutool.db.sql.SqlExecutor;
 import com.xiaoleilu.hutool.lang.Assert;
 import com.xiaoleilu.hutool.log.StaticLog;
 import com.xiaoleilu.hutool.util.ArrayUtil;
-import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 
 /**
@@ -110,7 +110,8 @@ public class SqlConnRunner{
 	
 	/**
 	 * 批量插入数据<br>
-	 * 批量插入必须严格保持Entity的结构一致，不一致会导致插入数据出现不可预知的结果<br>
+	 * 需要注意的是，批量插入每一条数据结构必须一致。批量插入数据时会获取第一条数据的字段结构，之后的数据会按照这个格式插入。<br>
+	 * 也就是说假如第一条数据只有2个字段，后边数据多于这两个字段的部分将被抛弃。
 	 * 此方法不会关闭Connection
 	 * 
 	 * @param conn 数据库连接
@@ -519,7 +520,7 @@ public class SqlConnRunner{
 		}
 		
 		final int count = count(conn, where);
-		PageResultHandler pageResultHandler = PageResultHandler.create(new PageResult<Entity>(page.getPageNumber(), page.getNumPerPage(), count));
+		PageResultHandler pageResultHandler = PageResultHandler.create(new PageResult<Entity>(page.getPageNumber(), page.getPageSize(), count));
 		return this.page(conn, fields, where, page, pageResultHandler);
 	}
 	

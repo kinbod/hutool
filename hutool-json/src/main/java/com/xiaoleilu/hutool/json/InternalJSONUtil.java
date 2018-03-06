@@ -7,7 +7,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.xiaoleilu.hutool.bean.BeanUtil;
-import com.xiaoleilu.hutool.bean.BeanUtil.CopyOptions;
+import com.xiaoleilu.hutool.bean.copier.CopyOptions;
+import com.xiaoleilu.hutool.bean.copier.ValueProvider;
 import com.xiaoleilu.hutool.convert.Convert;
 import com.xiaoleilu.hutool.convert.ConvertException;
 import com.xiaoleilu.hutool.convert.ConverterRegistry;
@@ -204,14 +205,15 @@ final class InternalJSONUtil {
 	}
 	
 	/**
-	 * JSON或者
+	 * JSON转Bean，忽略字段的大小写
+	 * 
 	 * @param jsonObject JSON对象
 	 * @param bean 目标Bean
 	 * @param ignoreError 是否忽略转换错误
 	 * @return 目标Bean
 	 */
 	protected static <T> T toBean(final JSONObject jsonObject, T bean, final boolean ignoreError){
-		return BeanUtil.fillBean(bean, new BeanUtil.ValueProvider<String>(){
+		return BeanUtil.fillBean(bean, new ValueProvider<String>(){
 
 			@Override
 			public Object value(String key, Type valueType) {
@@ -223,7 +225,7 @@ final class InternalJSONUtil {
 				return jsonObject.containsKey(key);
 			}
 			
-		}, CopyOptions.create().setIgnoreError(ignoreError));
+		}, CopyOptions.create().setIgnoreCase(true).setIgnoreError(ignoreError));
 	}
 	
 	/**

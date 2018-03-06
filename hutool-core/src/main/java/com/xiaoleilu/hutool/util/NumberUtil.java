@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
@@ -556,8 +557,21 @@ public class NumberUtil {
 	 * @return 格式化后的值
 	 * @since 3.0.9
 	 */
-	public static String decimalFormatMoney(Double value) {
+	public static String decimalFormatMoney(double value) {
 		return decimalFormat(",###", value);
+	}
+	
+	/**
+	 * 格式化百分比，小数采用四舍五入方式
+	 * @param number 值
+	 * @param scale 保留小数位数
+	 * @return 百分比
+	 * @since 3.2.3
+	 */
+	public static String formatPercent(double number, int scale) {
+		final NumberFormat format = NumberFormat.getPercentInstance();
+		format.setMaximumFractionDigits(scale);
+		return format.format(number);
 	}
 
 	// ------------------------------------------------------------------------------------------- isXXX
@@ -672,7 +686,7 @@ public class NumberUtil {
 	 */
 	public static boolean isInteger(String s) {
 		if (StrUtil.isNotBlank(s)) {
-			return s.matches("^\\d+$");
+			return s.matches("^-?\\d+$");
 		} else {
 			return false;
 		}
@@ -782,6 +796,17 @@ public class NumberUtil {
 	}
 
 	// ------------------------------------------------------------------------------------------- range
+	/**
+	 * 从0开始给定范围内的整数列表，步进为1
+	 * 
+	 * @param stop 结束（包含）
+	 * @return 整数列表
+	 * @since 3.3.1
+	 */
+	public static int[] range(int stop) {
+		return range(0, stop);
+	}
+	
 	/**
 	 * 给定范围内的整数列表，步进为1
 	 * 

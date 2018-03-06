@@ -7,10 +7,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.json.test.bean.Seq;
 import com.xiaoleilu.hutool.json.test.bean.UserA;
 import com.xiaoleilu.hutool.json.test.bean.UserB;
-import com.xiaoleilu.hutool.util.CollectionUtil;
 
 /**
  * JSONObject单元测试
@@ -47,6 +47,8 @@ public class JSONObjectTest {
 		Assert.assertEquals(jsonObject.get("b"), "value2");
 		Assert.assertEquals(jsonObject.get("c"), "value3");
 		Assert.assertEquals(jsonObject.get("d"), true);
+		
+		Assert.assertTrue(jsonObject.containsKey("e"));
 		Assert.assertEquals(jsonObject.get("e"), JSONNull.NULL);
 	}
 	
@@ -94,6 +96,18 @@ public class JSONObjectTest {
 	}
 	
 	@Test
+	public void parseBeanTest(){
+		UserA userA = new UserA();
+		userA.setName("nameTest");
+		userA.setDate(new Date());
+		userA.setSqs(CollectionUtil.newArrayList(new Seq(null), new Seq("seq2")));
+		
+		JSONObject json = JSONUtil.parseObj(userA, false);
+		Assert.assertTrue(json.containsKey("a"));
+		Assert.assertTrue(json.getJSONArray("sqs").getJSONObject(0).containsKey("seq"));
+	}
+	
+	@Test
 	public void beanTransTest(){
 		UserA userA = new UserA();
 		userA.setA("A user");
@@ -120,6 +134,14 @@ public class JSONObjectTest {
 		JSONObject userAJsonWithNullValue = JSONUtil.parseObj(userA, false);
 		Assert.assertTrue(userAJsonWithNullValue.containsKey("a"));
 		Assert.assertTrue(userAJsonWithNullValue.containsKey("sqs"));
+	}
+	
+	@Test
+	public void specialCharTest() {
+		String json = "{\"pattern\": \"[abc]\b\u2001\", \"pattern2Json\": {\"patternText\": \"[ab]\\b\"}}";
+		JSONObject obj = JSONUtil.parseObj(json);
+		Assert.assertEquals("[abc]\\b\\u2001", obj.getStr("pattern"));
+		Assert.assertEquals("{\"patternText\":\"[ab]\\b\"}", obj.getStr("pattern2Json"));
 	}
 	
 	/**
